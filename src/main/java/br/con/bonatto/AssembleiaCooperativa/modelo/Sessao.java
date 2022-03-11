@@ -7,7 +7,7 @@ public class Sessao
 {
 	
 	private long id;
-	private LocalDateTime dataCriacao;
+	private LocalDateTime dataCriacao = LocalDateTime.now();
 	private List<Voto> votos;
 	private long tempoDuracao = 3600000; //1 hora em milissegundos
 	private StatusSessao status = StatusSessao.EM_ABERTO;
