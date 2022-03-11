@@ -2,6 +2,8 @@ package br.con.bonatto.AssembleiaCooperativa.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,7 @@ public class PautaController
 	
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<PautaDto> cadastraPauta(@RequestBody PautaForm form, UriComponentsBuilder uriBuilder)
+	public ResponseEntity<PautaDto> cadastraPauta(@RequestBody  @Valid PautaForm form, UriComponentsBuilder uriBuilder)
 	{
 		Pauta pauta = form.converte();
 		pautaRepository.save(pauta);
