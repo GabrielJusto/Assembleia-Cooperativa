@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.con.bonatto.AssembleiaCooperativa.controller.dto.SessaoDto;
+import br.con.bonatto.AssembleiaCooperativa.controller.form.PautaAtualizaForm;
 import br.con.bonatto.AssembleiaCooperativa.controller.form.SessaoForm;
-import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Sessao;
 import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
@@ -38,9 +38,8 @@ public class SessaoController
 		sessaoRepository.save(sessao);
 		
 		/* Associa a sessao a uma pauta*/
-		Pauta pauta = pautaRepository.findByDescricao(form.getDescricaoPauta());
-		pauta.setSessao(sessao);
-		pautaRepository.save(pauta);
+		PautaAtualizaForm pautaAtualiza = new PautaAtualizaForm(sessao);
+		pautaAtualiza.atualiza(form.getDescricaoPauta(), pautaRepository);
 
 		
 		URI uri = uriBuilder.path("/sessao/{id}").buildAndExpand(sessao.getId()).toUri();
