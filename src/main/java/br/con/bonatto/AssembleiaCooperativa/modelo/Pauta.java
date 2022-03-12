@@ -39,6 +39,11 @@ public class Pauta
 		return sessao;
 	}
 
+	public void setSessao(Sessao sessao) {
+		this.sessao = sessao;
+	}
+
+	
 
 	
 	

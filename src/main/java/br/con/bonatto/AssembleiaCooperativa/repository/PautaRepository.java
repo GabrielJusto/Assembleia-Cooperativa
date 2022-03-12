@@ -6,4 +6,6 @@ import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
 
 public interface PautaRepository extends JpaRepository<Pauta, Long> {
 
+	Pauta findByDescricao(String descricaoPauta);
+	
 }

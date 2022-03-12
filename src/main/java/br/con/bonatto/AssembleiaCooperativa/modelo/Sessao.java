@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 
 @Entity
@@ -25,14 +24,23 @@ public class Sessao
 	@OneToMany(mappedBy = "sessao")
 	private List<Voto> votos;
 	
-	private long tempoDuracao = 3600000; //1 hora em milissegundos
+	private Long tempoDuracao = Long.parseLong("3600000"); //1 hora em milissegundos
 	
 	@Enumerated(EnumType.STRING)
 	private StatusSessao status = StatusSessao.EM_ABERTO;
 	
-	@OneToOne
-	private Pauta pauta;
 	
+	
+	
+	public Sessao(Long tempoDuracao)
+	{	
+		if(tempoDuracao != null)
+			this.tempoDuracao = tempoDuracao;
+		
+	}
+
+	
+	public Sessao() {}
 	
 	
 	
@@ -50,9 +58,6 @@ public class Sessao
 	}
 	public StatusSessao getStatus() {
 		return status;
-	}
-	public Pauta getPauta() {
-		return pauta;
 	}
 	
 	
