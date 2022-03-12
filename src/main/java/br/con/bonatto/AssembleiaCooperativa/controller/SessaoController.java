@@ -2,6 +2,7 @@ package br.con.bonatto.AssembleiaCooperativa.controller;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,11 @@ public class SessaoController
 	private SessaoRepository sessaoRepository;
 	
 	@PostMapping
+	@Transactional
 	public ResponseEntity<SessaoDto> cadastraSessao(@RequestBody @Valid SessaoForm form, UriComponentsBuilder uriBuilder)
 	{
 		
-		Sessao sessao = form.converte(pautaRepository);
+		Sessao sessao = form.converte();
 		sessaoRepository.save(sessao);
 		
 		/* Associa a sessao a uma pauta*/

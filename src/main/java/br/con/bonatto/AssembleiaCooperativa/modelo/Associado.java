@@ -13,6 +13,14 @@ public class Associado
 	private String nome;
 	
 	
+	
+	public Associado(String nome)
+	{
+		this.nome = nome;
+	}
+	
+	public Associado() {}
+	
 	public long getId() {
 		return id;
 	}

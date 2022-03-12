@@ -4,7 +4,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.con.bonatto.AssembleiaCooperativa.modelo.Sessao;
-import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 
 public class SessaoForm 
 {
@@ -16,7 +15,7 @@ public class SessaoForm
 
 	
 	
-	public Sessao converte(PautaRepository pautaRepository)
+	public Sessao converte()
 	{
 		return new Sessao(tempoDuracao);
 	}

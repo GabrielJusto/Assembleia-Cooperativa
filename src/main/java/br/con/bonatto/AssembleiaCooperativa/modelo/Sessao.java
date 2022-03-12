@@ -1,6 +1,7 @@
 package br.con.bonatto.AssembleiaCooperativa.modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -42,6 +43,13 @@ public class Sessao
 	
 	public Sessao() {}
 	
+
+	public void addVoto (Voto voto)
+	{
+		if(votos == null)
+			votos = new ArrayList<>();
+		votos.add(voto);
+	}
 	
 	
 	public long getTempoDuracao() {
@@ -59,9 +67,8 @@ public class Sessao
 	public StatusSessao getStatus() {
 		return status;
 	}
-	
-	
-	
+
+
 	
 	
 }

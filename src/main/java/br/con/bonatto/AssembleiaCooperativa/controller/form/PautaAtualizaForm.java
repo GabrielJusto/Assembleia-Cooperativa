@@ -20,7 +20,6 @@ public class PautaAtualizaForm
 	{
 		Pauta pauta = pautaRepository.findByDescricao(pautaDescricao);
 		pauta.setSessao(sessao);
-		pautaRepository.save(pauta);
 		
 		return pauta;
 	}
