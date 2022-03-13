@@ -2,17 +2,18 @@ package br.con.bonatto.AssembleiaCooperativa.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import br.con.bonatto.AssembleiaCooperativa.dto.VotoDto;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Sessao;
 import br.con.bonatto.AssembleiaCooperativa.modelo.StatusSessao;
-import br.con.bonatto.AssembleiaCooperativa.modelo.Voto;
 
 public class SessaoDto 
 {
 
 	private long id;
 	private LocalDateTime dataCriacao;
-	private List<Voto> votos;
+	private List<VotoDto> votos;
 	private StatusSessao status;
 	
 	
@@ -20,7 +21,11 @@ public class SessaoDto
 	{
 		this.id = sessao.getId();
 		this.dataCriacao = sessao.getDataCriacao();
-		this.votos= sessao.getVotos();
+		try {
+			this.votos= sessao.getVotos().stream().map(v -> new VotoDto(v)).collect(Collectors.toList());
+		} catch (NullPointerException e) {
+			// A sessao náo tem votos
+		}
 		this.status = sessao.getStatus();
 	}
 
@@ -37,7 +42,7 @@ public class SessaoDto
 	}
 
 
-	public List<Voto> getVotos() {
+	public List<VotoDto> getVotos() {
 		return votos;
 	}
 

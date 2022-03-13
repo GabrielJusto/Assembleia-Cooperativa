@@ -47,4 +47,8 @@ public class SessaoController
 		URI uri = uriBuilder.path("/sessao/{id}").buildAndExpand(sessao.getId()).toUri();
 		return ResponseEntity.created(uri).body(new SessaoDto(sessao));
 	}
+	
+	
+	
+	
 }

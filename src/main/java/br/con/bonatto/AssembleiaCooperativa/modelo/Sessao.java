@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
+
 
 @Entity
 public class Sessao 
@@ -25,7 +27,7 @@ public class Sessao
 	@OneToMany(mappedBy = "sessao")
 	private List<Voto> votos;
 	
-	private Long tempoDuracao = Long.parseLong("3600000"); //1 hora em milissegundos
+	private Long tempoDuracao = Long.parseLong("3600"); //tempo em segundos
 	
 	@Enumerated(EnumType.STRING)
 	private StatusSessao status = StatusSessao.EM_ABERTO;
@@ -52,6 +54,27 @@ public class Sessao
 	}
 	
 	
+	public boolean verificaFim(SessaoRepository sessaoRepository)
+	{
+
+		if(votos != null && dataCriacao.plusSeconds(tempoDuracao).isBefore(LocalDateTime.now()))
+		{
+			long votosSim = votos.stream().filter(v -> v.getStatus() == StatusVoto.SIM).count();
+			long votosNao = votos.stream().filter(v -> v.getStatus() == StatusVoto.NAO).count();
+			
+			if(votosSim > votosNao)
+				status = StatusSessao.APROVADA;
+			else
+				status = StatusSessao.RECUSADA;
+			
+			
+			sessaoRepository.save(this);
+			return true;
+		}
+		return false;
+	}
+	
+	
 	public long getTempoDuracao() {
 		return tempoDuracao;
 	}
@@ -66,6 +89,11 @@ public class Sessao
 	}
 	public StatusSessao getStatus() {
 		return status;
+	}
+
+
+	public void setStatus(StatusSessao status) {
+		this.status = status;
 	}
 
 

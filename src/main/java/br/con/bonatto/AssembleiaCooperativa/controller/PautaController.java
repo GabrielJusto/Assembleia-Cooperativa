@@ -2,6 +2,7 @@ package br.con.bonatto.AssembleiaCooperativa.controller;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import br.con.bonatto.AssembleiaCooperativa.controller.form.PautaForm;
 import br.con.bonatto.AssembleiaCooperativa.dto.PautaDetalheDto;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
 import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
+import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 
 
 @RequestMapping("/pauta")
@@ -30,6 +32,9 @@ public class PautaController
 	
 	@Autowired
 	private PautaRepository pautaRepository;
+	
+	@Autowired
+	private SessaoRepository sessaoRepository;
 	
 	@PostMapping
 	@ResponseBody
@@ -44,9 +49,12 @@ public class PautaController
 	
 	
 	@GetMapping("/{id}")
+	@Transactional
 	public PautaDetalheDto detalhar(@PathVariable long id)
 	{
 		Pauta pauta = pautaRepository.getById(id);
+		pauta.getSessao().verificaFim(sessaoRepository);
+		
 		
 		return new PautaDetalheDto(pauta);
 	}

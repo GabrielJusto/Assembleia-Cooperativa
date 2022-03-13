@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.con.bonatto.AssembleiaCooperativa.config.excecao.SessaoEncerradaException;
 import br.con.bonatto.AssembleiaCooperativa.controller.form.SessaoAtualizaForm;
 import br.con.bonatto.AssembleiaCooperativa.controller.form.VotoForm;
 import br.con.bonatto.AssembleiaCooperativa.dto.VotoDto;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Voto;
 import br.con.bonatto.AssembleiaCooperativa.repository.AssociadoRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
+import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.VotoRepository;
 
 @RestController
@@ -35,18 +37,23 @@ public class VotoController
 	@Autowired
 	private VotoRepository votoRepository;
 	
+	@Autowired
+	private SessaoRepository sessaoRepository;
 	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<VotoDto> cadastraVoto(@RequestBody @Validated VotoForm form, UriComponentsBuilder uriBuilder)
 	{
 		Voto voto = form.converte(associadoRepository, pautaRepository);
+		if(voto.getSessao().verificaFim(sessaoRepository))
+			throw new SessaoEncerradaException(
+					voto.getSessao().getDataCriacao().plusSeconds(voto.getSessao().getTempoDuracao()));
 		votoRepository.save(voto);
 		
 		/* Associa o voto a uma sesssao*/
 		SessaoAtualizaForm sessaoAtualiza = new SessaoAtualizaForm(voto);
 		sessaoAtualiza.atualiza(voto.getSessao());
-		
+	
 		URI uri = uriBuilder.path("/voto/{id}").buildAndExpand(voto.getId()).toUri();
 		return ResponseEntity.created(uri).body(new VotoDto(voto));
 	}

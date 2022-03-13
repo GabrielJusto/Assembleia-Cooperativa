@@ -1,25 +1,25 @@
 package br.con.bonatto.AssembleiaCooperativa.dto;
 
+import br.con.bonatto.AssembleiaCooperativa.controller.dto.SessaoDto;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
-import br.con.bonatto.AssembleiaCooperativa.modelo.Sessao;
 
 public class PautaDetalheDto 
 {
 
 	private String descricao;
-	private Sessao sessao;
+	private SessaoDto sessao;
 	
 	public PautaDetalheDto(Pauta pauta)
 	{
 		this.descricao = pauta.getDescricao();
-		this.sessao = pauta.getSessao();
+		this.sessao = new SessaoDto(pauta.getSessao());
 	}
 
 	public String getDescricao() {
 		return descricao;
 	}
 
-	public Sessao getSessao() {
+	public SessaoDto getSessao() {
 		return sessao;
 	}
 	
