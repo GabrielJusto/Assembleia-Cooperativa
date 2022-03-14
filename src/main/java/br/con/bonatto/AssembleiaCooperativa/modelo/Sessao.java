@@ -27,7 +27,7 @@ public class Sessao
 	@OneToMany(mappedBy = "sessao")
 	private List<Voto> votos;
 	
-	private Long tempoDuracao = Long.parseLong("3600"); //tempo em segundos
+	private Long tempoDuracao = Long.parseLong("60"); //tempo em segundos
 	
 	@Enumerated(EnumType.STRING)
 	private StatusSessao status = StatusSessao.EM_ABERTO;

@@ -33,8 +33,12 @@ public class VotoForm
 		Pauta pauta = pautaRepository.findByDescricao(descricaoPauta);
 		StatusVoto statusVoto = StatusVoto.parseStatusVoto(this.statusVoto);
 		
-		if(pauta.getSessao().getVotos().stream().anyMatch(v -> v.getAssociado().getId() == associado.getId()))
-			throw new AssociadoJaVotouException(nomeAssociado, descricaoPauta);
+		try {
+			if(pauta.getSessao().getVotos().stream().anyMatch(v -> v.getAssociado().getId() == associado.getId()))
+				throw new AssociadoJaVotouException(nomeAssociado, descricaoPauta);
+		} catch (NullPointerException e) {
+			//Não tem votos cadastrados ainda, não precisa lidar com essa exceção
+		}
 		
 		return new br.con.bonatto.AssembleiaCooperativa.modelo.Voto(statusVoto, associado, pauta.getSessao());
 				
