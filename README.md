@@ -1,4 +1,4 @@
-# Assembleia-Cooprativa
+# Assembleia-Cooperativa
 
 Este projeto consiste em um sistema de votação no qual associados votam em uma pauta com "SIM" ou "NAO", quando a sessão de votos é encerrada o sistema informa se a pauta foi aprovada ou recusada.
 
