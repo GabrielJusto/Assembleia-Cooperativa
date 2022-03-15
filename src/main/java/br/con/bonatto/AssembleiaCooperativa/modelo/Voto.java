@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import br.con.bonatto.AssembleiaCooperativa.config.excecao.SessaoEncerradaException;
+import br.con.bonatto.AssembleiaCooperativa.controller.form.SessaoAtualizaForm;
+import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
+
 @Entity
 public class Voto 
 {
@@ -33,6 +37,22 @@ public class Voto
 	}
 
 	public Voto() {}
+
+	
+	public void validaVoto(SessaoRepository sessaoRepository)
+	{
+
+		if(sessao.verificaFim(sessaoRepository))
+			throw new SessaoEncerradaException(
+					sessao.getDataCriacao().plusSeconds(sessao.getTempoDuracao()));
+	}
+	
+	public void associaSessao()
+	{
+		SessaoAtualizaForm sessaoAtualiza = new SessaoAtualizaForm(this);
+		sessaoAtualiza.atualiza(sessao);
+	}
+	
 	
 	public StatusVoto getStatus() {
 		return status;

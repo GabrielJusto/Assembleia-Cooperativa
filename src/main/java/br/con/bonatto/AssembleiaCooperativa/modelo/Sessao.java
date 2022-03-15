@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import br.con.bonatto.AssembleiaCooperativa.controller.form.PautaAtualizaForm;
+import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 
 
@@ -74,6 +76,11 @@ public class Sessao
 		return false;
 	}
 	
+	public void associaPauta(String descricaoPauta, PautaRepository pautaRepository)
+	{
+		PautaAtualizaForm pautaAtualiza = new PautaAtualizaForm(this);
+		pautaAtualiza.atualiza(descricaoPauta, pautaRepository);
+	}
 	
 	public long getTempoDuracao() {
 		return tempoDuracao;

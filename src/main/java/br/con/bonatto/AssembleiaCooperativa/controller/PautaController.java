@@ -47,17 +47,7 @@ public class PautaController
 		return ResponseEntity.created(uri).body(new PautaDto(pauta));
 	}
 	
-//	
-//	@GetMapping("/{id}")
-//	@Transactional
-//	public PautaDetalheDto detalhar(@PathVariable long id)
-//	{
-//		Pauta pauta = pautaRepository.getById(id);
-//		pauta.getSessao().verificaFim(sessaoRepository);
-//		
-//		
-//		return new PautaDetalheDto(pauta);
-//	}
+
 	
 	@GetMapping("/{descricaoPauta}")
 	@Transactional
