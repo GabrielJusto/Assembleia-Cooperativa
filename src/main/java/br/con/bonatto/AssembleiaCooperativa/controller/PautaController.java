@@ -1,6 +1,7 @@
 package br.con.bonatto.AssembleiaCooperativa.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -51,12 +52,18 @@ public class PautaController
 	
 	@GetMapping("/{descricaoPauta}")
 	@Transactional
-	public PautaDetalheDto detalharPorDescricao(@PathVariable String descricaoPauta)
+	public ResponseEntity<PautaDetalheDto> detalharPorDescricao(@PathVariable String descricaoPauta)
 	{
-		Pauta pauta = pautaRepository.findByDescricao(descricaoPauta);
-		pauta.getSessao().verificaFim(sessaoRepository);
+		Optional<Pauta> pauta = pautaRepository.findByDescricao(descricaoPauta);
+		
+		if(pauta.isPresent())
+		{
+			pauta.get().getSessao().verificaFim(sessaoRepository);
+			return ResponseEntity.ok(new PautaDetalheDto(pauta.get()));
+		}
+		
+		return ResponseEntity.notFound().build();
 		
 		
-		return new PautaDetalheDto(pauta);
 	}
 }

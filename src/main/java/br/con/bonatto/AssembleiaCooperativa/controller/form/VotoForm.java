@@ -1,9 +1,12 @@
 package br.con.bonatto.AssembleiaCooperativa.controller.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.con.bonatto.AssembleiaCooperativa.config.excecao.AssociadoJaVotouException;
+import br.con.bonatto.AssembleiaCooperativa.config.excecao.PautaNaoExisteException;
 import br.con.bonatto.AssembleiaCooperativa.config.vaidacao.Voto;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Associado;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
@@ -30,17 +33,20 @@ public class VotoForm
 	{
 		
 		Associado associado = associadoRepository.findByNome(nomeAssociado);
-		Pauta pauta = pautaRepository.findByDescricao(descricaoPauta);
+		Optional<Pauta> pauta = pautaRepository.findByDescricao(descricaoPauta);
+		if(pauta.isEmpty())
+			throw new PautaNaoExisteException(descricaoPauta);
+		
 		StatusVoto statusVoto = StatusVoto.parseStatusVoto(this.statusVoto);
 		
 		try {
-			if(pauta.getSessao().getVotos().stream().anyMatch(v -> v.getAssociado().getId() == associado.getId()))
+			if(pauta.get().getSessao().getVotos().stream().anyMatch(v -> v.getAssociado().getId() == associado.getId()))
 				throw new AssociadoJaVotouException(nomeAssociado, descricaoPauta);
 		} catch (NullPointerException e) {
 			//Não tem votos cadastrados ainda, não precisa lidar com essa exceção
 		}
 		
-		return new br.con.bonatto.AssembleiaCooperativa.modelo.Voto(statusVoto, associado, pauta.getSessao());
+		return new br.con.bonatto.AssembleiaCooperativa.modelo.Voto(statusVoto, associado, pauta.get().getSessao());
 				
 	}
 	
