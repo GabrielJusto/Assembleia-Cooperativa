@@ -19,7 +19,7 @@ import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-class PautaRepositoryTest 
+public class PautaRepositoryTest 
 {
 
 	@Autowired
@@ -30,7 +30,7 @@ class PautaRepositoryTest
 	
 	
 	@Test
-	void testePautaFindByDescricao() 
+	public void testePautaFindByDescricao() 
 	{
 		
 		String descricaoPauta = "Pauta teste";
