@@ -25,7 +25,7 @@ import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 
 
-@RequestMapping("/pauta")
+@RequestMapping("/pautas")
 @RestController
 public class PautaController 
 {

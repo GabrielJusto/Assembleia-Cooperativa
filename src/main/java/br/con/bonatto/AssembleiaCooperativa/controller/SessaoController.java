@@ -20,7 +20,7 @@ import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 
 @RestController
-@RequestMapping("/sessao")
+@RequestMapping("/sessoes")
 public class SessaoController 
 {
 

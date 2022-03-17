@@ -17,7 +17,7 @@ import br.con.bonatto.AssembleiaCooperativa.modelo.Associado;
 import br.con.bonatto.AssembleiaCooperativa.repository.AssociadoRepository;
 
 @RestController
-@RequestMapping("/associado")
+@RequestMapping("/associados")
 public class AssociadoController 
 {
 

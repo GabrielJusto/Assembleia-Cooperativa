@@ -22,7 +22,7 @@ import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.VotoRepository;
 
 @RestController
-@RequestMapping("/voto")
+@RequestMapping("/votos")
 public class VotoController 
 {
 
