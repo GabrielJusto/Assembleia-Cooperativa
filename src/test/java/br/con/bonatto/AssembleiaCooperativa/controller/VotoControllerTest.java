@@ -3,6 +3,7 @@ package br.con.bonatto.AssembleiaCooperativa.controller;
 import java.net.URI;
 import java.util.Optional;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +15,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.con.bonatto.AssembleiaCooperativa.modelo.Associado;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Pauta;
 import br.con.bonatto.AssembleiaCooperativa.modelo.Sessao;
+import br.con.bonatto.AssembleiaCooperativa.modelo.StatusVoto;
 import br.con.bonatto.AssembleiaCooperativa.repository.AssociadoRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.PautaRepository;
 import br.con.bonatto.AssembleiaCooperativa.repository.SessaoRepository;
 
 @RunWith(SpringRunner.class)
-//em.persist(new Pauta("Pauta Teste"));
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -44,6 +46,7 @@ public class VotoControllerTest
 	
 	
 	@Test
+	@Transactional
 	public void testeVoto() throws Exception 
 	{
 		String nomeAssociado = "Gabriel";
@@ -62,6 +65,7 @@ public class VotoControllerTest
 		associadoRepository.save(new Associado(nomeAssociado));
 		
 		
+	
 		
 		
 		URI uri = new URI("/votos");
@@ -75,6 +79,12 @@ public class VotoControllerTest
 		.andExpect(MockMvcResultMatchers
 				.status()
 				.is(201));
+		
+		Sessao sessaoResult = sessaoRepository.getById(sessao.getId());
+		Assert.assertNotNull(sessaoResult.getVotos());
+		Assert.assertEquals(sessaoResult.getVotos().size(), 1);
+		Assert.assertEquals(sessaoResult.getVotos().get(0).getStatus(), StatusVoto.NAO);
+
 		
 	}
 	
